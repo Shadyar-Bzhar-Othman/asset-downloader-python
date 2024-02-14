@@ -3,7 +3,7 @@ import os
 
 PIXABAY_API_KEY = "42368499-3617d02f2d4f476a2ebcaef11" 
 
-def download_pixabay_images(folder_name, image_title, num_images=50):
+def download_pixabay_images(folder_name, image_title, num_images=10):
     os.makedirs(folder_name, exist_ok=True)
 
     base_url = "https://pixabay.com/api/"
@@ -19,7 +19,7 @@ def download_pixabay_images(folder_name, image_title, num_images=50):
     data = response.json()
 
     for i, hit in enumerate(data['hits']):
-        image_url = hit['fullHDURL']
+        image_url = hit['largeImageURL']
         filename = os.path.join(folder_name, f"{i+1}_{image_title}.jpg")
 
         image_response = requests.get(image_url, stream=True)
@@ -32,5 +32,5 @@ def download_pixabay_images(folder_name, image_title, num_images=50):
         print(f"Downloaded image {i+1}: {filename}")
 
 folder_name = "my_images"
-image_title = "robot" 
+image_title = "coding" 
 download_pixabay_images(folder_name, image_title) 
