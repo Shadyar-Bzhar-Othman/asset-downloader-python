@@ -10,7 +10,7 @@ def download_pixabay_images(folder_name, image_title, num_images=50):
     search_params = {
         "key": PIXABAY_API_KEY,
         "q": image_title,
-        "per_page": num_images 
+        "per_page": num_images,
     }
 
     response = requests.get(base_url, params=search_params)
@@ -32,5 +32,5 @@ def download_pixabay_images(folder_name, image_title, num_images=50):
         print(f"Downloaded image {i+1}: {filename}")
 
 folder_name = "my_images"
-image_title = "kittens" 
-download_pixabay_images("folder_name", image_title) 
+image_title = "robot" 
+download_pixabay_images(folder_name, image_title) 
