@@ -6,7 +6,7 @@ A streamlined Python script for effortless image downloading with a single comma
 
 ## Installation
 
-1. Obtain an API key from [Pixabay](https://pixabay.com/service/about/api/)
+1. Obtain an API key from [Pixabay](https://pixabay.com/service/about/api/) and [Pexels](https://www.pexels.com/api/)
 
 2. Clone the repository:
 
@@ -22,7 +22,7 @@ A streamlined Python script for effortless image downloading with a single comma
 
 4. Create a **.env** file and populate it with the contents of **.env.example**.
 
-5. In **.env**, replace **YOUR_API_KEY** with your Pixabay API key.
+5. In **.env**, replace **YOUR_API_KEY** with your Pixabay and Pexels API key.
 
 6. In **download_image.py**, specify your desired image topic (e.g., "Pizza") and the target download directory
 
