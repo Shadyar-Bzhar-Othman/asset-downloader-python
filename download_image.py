@@ -1,36 +1,46 @@
 import requests
 import os
+from dotenv import load_dotenv
 
-PIXABAY_API_KEY = "42368499-3617d02f2d4f476a2ebcaef11" 
+load_dotenv()
 
-def download_pixabay_images(folder_name, image_title, num_images=10):
-    os.makedirs(folder_name, exist_ok=True)
+PIXABAY_API_KEY = os.getenv("PIXABAY_API_KEY")
 
-    base_url = "https://pixabay.com/api/"
-    search_params = {
-        "key": PIXABAY_API_KEY,
-        "q": image_title,
-        "per_page": num_images,
-    }
+folder_name = "Pizza Images"
+images_title = "Pizza"
+image_number = 12
 
-    response = requests.get(base_url, params=search_params)
-    response.raise_for_status()
+def download_pixabay_images(folder_name, image_title, num_images=12):
+    try:
+        os.makedirs(folder_name, exist_ok=True)
+        base_url = "https://pixabay.com/api/"
+        search_params = {
+            "key": PIXABAY_API_KEY,
+            "q": image_title.replace(" ", "+"),
+            "per_page": num_images,
+        }
 
-    data = response.json()
+        response = requests.get(base_url, params=search_params)
+        response.raise_for_status()
 
-    for i, hit in enumerate(data['hits']):
-        image_url = hit['largeImageURL']
-        filename = os.path.join(folder_name, f"{i+1}_{image_title}.jpg")
+        data = response.json()
 
-        image_response = requests.get(image_url, stream=True)
-        image_response.raise_for_status()
+        for i, hit in enumerate(data['hits'], start=1):
+            image_url = hit['largeImageURL']
+            filename = os.path.join(folder_name, f"{i}_{image_title.replace(' ', '_')}.jpg")
 
-        with open(filename, 'wb') as f:
-            for chunk in image_response.iter_content(1024):
-                f.write(chunk)
+            image_response = requests.get(image_url, stream=True)
+            image_response.raise_for_status()
 
-        print(f"Downloaded image {i+1}: {filename}")
+            with open(filename, 'wb') as f:
+                for chunk in image_response.iter_content(1024):
+                    f.write(chunk)
 
-folder_name = "my_images"
-image_title = "coding" 
-download_pixabay_images(folder_name, image_title) 
+            print(f"Downloaded image {i}: {filename}")
+    except requests.exceptions.RequestException as e:
+        print(f"HTTP Request failed: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Execute the function
+download_pixabay_images(folder_name, images_title, num_images=image_number)
